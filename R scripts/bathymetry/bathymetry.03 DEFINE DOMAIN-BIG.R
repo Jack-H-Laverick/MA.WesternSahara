@@ -78,9 +78,12 @@ EEZs <- read_sf("./Data/eez_sahara//")
 
 ggplot() +
   geom_sf(data = EEZs, fill = "red") +
+  geom_sf(data = Region_mask, fill = NA) +
   geom_sf(data = shrunk, aes(fill = Depth), alpha = 0.5)
 
 shrunk <- st_intersection(shrunk, st_transform(EEZs, st_crs(shrunk))) %>% 
+  st_make_valid() %>% 
+  st_intersection(st_transform(Region_mask, st_crs(.))) %>% 
   st_make_valid()
 
 ggplot(shrunk) +
