@@ -13,10 +13,13 @@ lims <- c(xmin = -20, xmax = -12, ymin = 20, ymax = 30)# Specify limits of plott
 zoom <- coord_sf(xlim = c(lims[["xmin"]], lims[["xmax"]]), ylim = c(lims[["ymin"]], lims[["ymax"]]), expand = FALSE) # Specify the plotting window for SF maps in this region
 
 ggsave_map <- function(filename, plot) {
-  ggsave(filename, plot, scale = 1, width = 12, height = 10, units = "cm", dpi = 500)
+  ggsave(filename, plot, scale = 1, width = 12, height = 10, units = "cm", dpi = 500, bg = "white")
   
 }                             # Set a new default for saving maps in the correct size
 pre <- list(scale = 1, width = 12, height = 10, units = "cm", dpi = 500) # The same settings if you need to pass them to a function in MiMeMo.tools
+
+SDepth <- 70                  # Shallow deep boundary
+DDepth <- 900                 # Maximum depth
 
 #### bathymetry.5 MODEL DOMAIN ####
 
@@ -47,15 +50,16 @@ Region_mask <- st_transform(Region_mask, crs = crs)
 ## Polygons to mark which transects are along the open ocean-inshore boundary
 
 Inshore_Ocean1 <- matrix(c(-14, -16, -16, -14, -14,    # Longitudes
-                           26.12, 28.02, 26.08, 27.98, 26.12), ncol = 2, byrow = F) %>% 
+                           26.12, 28.02, 27.98, 26.08, 26.12), ncol = 2, byrow = F) %>% 
   shape()
 
-#Inshore_Ocean2 <- matrix(c(), ncol = 2, byrow = F) %>% 
-#  shape()
+Inshore_Ocean2 <- matrix(c(-17.8, -17.8, -17, -17, -17.8,
+                           20.3, 20.42, 20.82, 20.73, 20.3), ncol = 2, byrow = F) %>% 
+  shape()
 
-#Inshore_ocean_boundaries <- rbind(Inshore_Ocean1, Inshore_Ocean2)
+Inshore_ocean_boundaries <- rbind(Inshore_Ocean1, Inshore_Ocean2)
 
-#rm(Inshore_Ocean1, Inshore_Ocean2)
+rm(Inshore_Ocean1, Inshore_Ocean2)
 
 #### expand polygon for sampling rivers ####
 
