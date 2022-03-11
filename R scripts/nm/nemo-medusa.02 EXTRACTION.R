@@ -35,7 +35,7 @@ domains <- readRDS("./Objects/Domains.rds") %>%                             # Lo
   select(-c(Elevation, area))                                               # Drop unneeded data which would get included in new NM files
 
 crop <- readRDS("./Objects/Domains.rds") %>%                                # Load SF polygons of the MiMeMo model domains
-  st_buffer(dist = 50000) %>%                                               # It needs to be a bit bigger for sampling flows at the domain boundary
+  st_buffer(dist = 70000) %>%                                               # It needs to be a bit bigger for sampling flows at the domain boundary
   summarise() %>%                                                           # Combine polygons to avoid double sampling
   mutate(Shore = "Buffer")
 
